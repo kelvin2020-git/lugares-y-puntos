@@ -13,7 +13,7 @@ export const DashboardRoutes = () => {
           <Route path="/" element={<Placelistscreen />} />
           <Route path="/detalle/:id" element={<PlaceScreen />} />
           <Route path="/detalle/:id/editar/:id" element={<Placeditar />} />
-          <Route path="/detalle/:id/nuevo" element={<PlaceNew />} />
+          <Route path="/nuevo" element={<PlaceNew />} />
         </Routes>
       </div>
     </>

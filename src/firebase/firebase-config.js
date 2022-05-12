@@ -14,15 +14,14 @@ import {
 } from "firebase/firestore";
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCgjwE4FwK7oW2SDkCH95IEYk70Z3Kt0ao",
-  authDomain: "lugares-y-puntos-a8b29.firebaseapp.com",
-  projectId: "lugares-y-puntos-a8b29",
-  storageBucket: "lugares-y-puntos-a8b29.appspot.com",
-  messagingSenderId: "1014847077524",
-  appId: "1:1014847077524:web:49c6473a6278108ac80881",
-  measurementId: "G-4DW2NBCWGR",
-};
-
+  apiKey: "AIzaSyCFcj5TD1jJ20V_JfzgBam1WuVPcz4AjTA",
+  authDomain: "prueba-asignacio2.firebaseapp.com",
+  projectId: "prueba-asignacio2",
+  storageBucket: "prueba-asignacio2.appspot.com",
+  messagingSenderId: "766644527473",
+  appId: "1:766644527473:web:8604b5884a028f681496d0",
+  measurementId: "G-L17GNRD28J"
+}
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 

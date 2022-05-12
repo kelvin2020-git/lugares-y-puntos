@@ -121,7 +121,7 @@ export const RegisterAccount = () => {
                 <label className="block">Contraseña</label>
                 <input
                   type="password"
-                  placeholder="Confirme su contraseña"
+                  placeholder="ingrese su contraseña"
                   name="password"
                   value={password}
                   onChange={handleInputChange}
@@ -133,7 +133,7 @@ export const RegisterAccount = () => {
                 <label className="block">Confirmar contraseña:</label>
                 <input
                   type="password"
-                  placeholder="ingrese su contraseña"
+                  placeholder="Confirme su contraseña"
                   name="password2"
                   value={password2}
                   onChange={handleInputChange}

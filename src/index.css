@@ -16,3 +16,7 @@ code {
 }
 
 
+.leaflet-container {
+  width: 300px;
+  height: 200PX;
+}

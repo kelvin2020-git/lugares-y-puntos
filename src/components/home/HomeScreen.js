@@ -1,17 +1,45 @@
 import { useNavigate } from "react-router-dom";
 import appland from "../ui/appland.png";
 import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
 import { useForm } from "../../hooks/useForm";
-
+import { MapContainer, Marker, TileLayer, Popup } from "react-leaflet";
+import { VenueLocationIcon } from "../map/VenueLocationIcon";
+import { db, getDocs, collection } from "../../firebase/firebase-config";
 export const HomeScreen = () => {
   const navigate = useNavigate();
   const { active: note } = useSelector((state) => state.place);
   const [formValues] = useForm(note);
-  const { name, category, status, rang, lat, long, url } = formValues;
+  const { id, name, category, rang, lat, long, url } = formValues;
+  const [refe, getrefe] = useState([]);
 
   const handleReturn = () => {
     navigate(-1);
   };
+
+  const setrefe = async () => {
+    try {
+      const placesSnap = await getDocs(
+        collection(db, `places/${id}/references`)
+      );
+      const places = [];
+
+      placesSnap.forEach((doc) => {
+        places.push({
+          ...doc.data(),
+          id: doc.id,
+        });
+      });
+      getrefe(places);
+    } catch (error) {
+      console.log(error);
+    }
+    setrefe();
+  };
+
+  useEffect(() => {
+    setrefe();
+  });
 
   return (
     <>
@@ -35,14 +63,32 @@ export const HomeScreen = () => {
           <div className="grid grid-cols-1 p-2 ml-6">
             <h5 className="text-2xl ml-28">Detalles</h5>
             <img src={url} alt="imagen" className="w-72 h-56 ml-3 p-4" />
-            <h5 className=" text-2xl ml-28 mt-3">Ubicacion</h5>
-            <div className="w-72 h-48 p-4 ml-7 mb-4 bg-neutral-500"></div>
+            <h5 className=" text-2xl ml-28 mt-3">Ubicación</h5>
+            <div className="w-72 h-48  ml-7 mb-4 bg-neutral-500">
+              <MapContainer center={[lat, long]} zoom={13}>
+                <TileLayer
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                />
+
+                <Marker position={[lat, long]} icon={VenueLocationIcon}>
+                  <Popup>
+                    <div>{name}</div>
+                  </Popup>
+                </Marker>
+              </MapContainer>
+            </div>
           </div>
 
           <div className="  mr-7 mt-3  ">
-            <h3 className="ml-3 text-2/1">{name}</h3>
+            <div className="">
+              <label className="w-10 h-8 mt-1 "> Nombre: </label>
+              <label className=" w-40   h-8 px-1 py-1 text-gray-400 border rounded-md border-gray-500 ml-8">
+                {name}
+              </label>
+            </div>
             <div className="flex mt-2 mr-5">
-              <label className="w-10 h-8 mt-1 "> Categoria: </label>
+              <label className="w-10 h-8 mt-1 "> Categoría: </label>
               <label className=" w-40   h-8 px-1 py-1 text-gray-400 border rounded-md border-gray-500 ml-14">
                 {category}
               </label>
@@ -50,9 +96,15 @@ export const HomeScreen = () => {
 
             <div className="flex mt-2">
               <label className="w-10 h-8 mt-1 "> Estado: </label>
-              <label className=" w-40   h-8 px-1 py-1 text-gray-400 border rounded-md border-gray-500 ml-14">
-                {status}
-              </label>
+              {rang <= 3 ? (
+                <label className=" w-40   h-8 px-1 py-1 text-gray-400 border rounded-md border-gray-500 ml-14">
+                  Disponible
+                </label>
+              ) : (
+                <label className=" w-40   h-8 px-1 py-1 text-gray-400 border rounded-md border-gray-500 ml-14">
+                  No disponible
+                </label>
+              )}
             </div>
 
             <div className="flex mt-2">
@@ -60,11 +112,6 @@ export const HomeScreen = () => {
               <label className=" w-40   h-8 px-1 py-1 text-gray-400 border rounded-md border-gray-500 ml-14">
                 {rang}
               </label>
-            </div>
-
-            <div className="flex mt-2">
-              <label className="w-10 h-8 mt-1 "> Referencias: </label>
-              <label className=" w-40   h-8 px-1 py-1 text-gray-400 border rounded-md border-gray-500 ml-14"></label>
             </div>
 
             <div className="grid grid-cols-2">
@@ -94,8 +141,26 @@ export const HomeScreen = () => {
 
           <div className="  ">
             <p>
-              <h5 className="text-2xl ml-28 mt-3">Puntos de referencias </h5>
-              <div className="w-96 h-48 p-4 ml-7 mb-9 bg-neutral-500"></div>
+              <h5 className="text-2xl ml-10 mt-3">Puntos de referencias </h5>
+              <div className="w-60 h-48 p-4 ml-7 mb-9 bg-neutral-300">
+                <table className="table">
+                  <thead>
+                    <tr className="grid grid-cols-2">
+                      <th className="">Nombre </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {refe.map((item) => (
+                      <tr key={item.id}>
+                        <th className="text-left" id={item.id}>
+                          {item.name}
+                        </th>
+                        <td className="flex "></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </p>
             <div className="grid grid-cols-2 mt-48 "></div>
           </div>

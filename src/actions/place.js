@@ -48,7 +48,7 @@ export const setPlaces = (places) => ({
 export const startNewRefe = (id) => {
   return async (dispatch) => {
     const newRefe = {
-      name: "",
+      name: "Metro mall",
     };
     const docRef = collection(db, `places/${id}/references`);
     await setDoc(doc(docRef), newRefe);
@@ -56,6 +56,7 @@ export const startNewRefe = (id) => {
     dispatch(NewRefe(id));
   };
 };
+
 export const startSavePlace = (note) => {
   return async (dispatch) => {
     if (!note.url) {
@@ -95,12 +96,19 @@ export const refreshPlace = (id, place) => ({
 export const startDeleting = (id) => {
   return async (dispatch) => {
     const noteRef = doc(db, `places/${id}`);
-    await deleteDoc(noteRef);
-
-    dispatch(deletePlace(id));
+    await deleteDoc(noteRef); 
+    dispatch(deletePlace(id));   
   };
 };
 
+export const startDeletingrefe = (id,note) => {
+  return async () => {
+    const noteRef = doc(db, `places/${note.id}/references/${id}`);
+    await deleteDoc(noteRef);
+
+    
+  };
+};
 export const deletePlace = (id) => ({
   type: types.placeDelete,
   payload: id,

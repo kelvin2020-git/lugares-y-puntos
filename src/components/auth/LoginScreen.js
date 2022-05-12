@@ -56,7 +56,7 @@ export const LoginScreen = () => {
     
      text-left bg-neutral-400 shadow-lg"
         >
-          <h3 className="text-2xl font-bold text-center">Iniciar Sesion</h3>
+          <h3 className="text-2xl font-bold text-center">Iniciar Sesión</h3>
           <form onSubmit={handleLogin}>
             <div className="mt-4">
               <div>
@@ -91,7 +91,7 @@ export const LoginScreen = () => {
                 </button>
               </div>
 
-              <h4 className="mt-4 text-center">O inicia Sesion</h4>
+              <h4 className="mt-4 text-center">O inicia Sesión</h4>
 
               <div className="mt-4">
                 <div className="grid grid-cols-1">
